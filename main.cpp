@@ -7,7 +7,8 @@ using namespace std;
 
 string encode_rail_fence_cipher(string str, int n)
 {
-    if(str == "" || n == 1){
+    if (str == "" || n == 1)
+    {
         return str;
     }
     string result = "";
@@ -16,16 +17,21 @@ string encode_rail_fence_cipher(string str, int n)
     char dir = 'd';
     for (int i = 0; i < str.length(); i++)
     {
-        fence.push_back(pair(row,str[i]));
-        if(dir == 'd'){
+        fence.push_back(pair(row, str[i]));
+        if (dir == 'd')
+        {
             row++;
-            if(row == n+1){
-                row = n-1;
+            if (row == n + 1)
+            {
+                row = n - 1;
                 dir = 'u';
             }
-        }else if(dir == 'u'){
+        }
+        else if (dir == 'u')
+        {
             row--;
-            if(row == 0){
+            if (row == 0)
+            {
                 row = 2;
                 dir = 'd';
             }
@@ -33,8 +39,9 @@ string encode_rail_fence_cipher(string str, int n)
     }
     for (int i = 0; i < n; i++)
     {
-        for(int j = 0; j < fence.size(); j++){
-            if (fence[j].first == i+1)
+        for (int j = 0; j < fence.size(); j++)
+        {
+            if (fence[j].first == i + 1)
             {
                 result += fence[j].second;
             }
@@ -43,48 +50,38 @@ string encode_rail_fence_cipher(string str, int n)
     return result;
 }
 
-string decode_rail_fence_cipher(const string &str, int n)
+string decode_rail_fence_cipher(string str, int n)
 {
-    if(str == "" || n == 1){
+    if (str == "" || n == 1)
+    {
         return str;
     }
-    string result = "";
-    vector<pair<int, char>> fence;
-    int row = 1;
-    char dir = 'd';
-    for (int i = 0; i < str.length(); i++)
+    int rows = n;
+    int block_size = n * 2 - 2;
+    int str_length = str.length();
+    while (str_length % block_size != 0)
     {
-        fence.push_back(pair(row,str[i]));
-        if(dir == 'd'){
-            row++;
-            if(row == n+1){
-                row = n-1;
-                dir = 'u';
-            }
-        }else if(dir == 'u'){
-            row--;
-            if(row == 0){
-                row = 2;
-                dir = 'd';
-            }
-        }
+        str_length--;
     }
-    for (int i = 0; i < n; i++)
+    cout << str_length << endl;
+    for (int i = 0; i < str_length; i++)
     {
-        for(int j = 0; j < fence.size(); j++){
-            if (fence[j].first == i+1)
-            {
-                result += fence[j].second;
-            }
-        }
     }
-    return result;
+    /*
+Hello, World!
+H !e,Wdloollr
+H     _     !
+ e   , W   d
+  l o   o l
+   l     r
+    */
+    return "";
 }
 
 int main()
 {
-    cout << encode_rail_fence_cipher(encode_rail_fence_cipher(encode_rail_fence_cipher(encode_rail_fence_cipher("WEAREDISCOVEREDFLEEATONCE", 3),3),3),3) << endl;
-    cout << encode_rail_fence_cipher("Hello, World!", 3) << endl;
-    cout << encode_rail_fence_cipher("Hello, World!", 4) << endl;
-    cout << encode_rail_fence_cipher("", 3) << endl;
+    cout << decode_rail_fence_cipher("H !e,Wdloollr", 4) << endl;
+    ;
+    cout << decode_rail_fence_cipher("WECRLTEERDSOEEFEAOCAIVDEN", 3) << endl;
+    cout << decode_rail_fence_cipher("", 3) << endl;
 }
